@@ -1,0 +1,17 @@
+
+$bg: var(--app-bg);
+$text: var(--app-text);
+$primary: #5C469C;
+$primary-hover: #47367a;
+$secondary: #D21312;
+$third: #03C988;
+$third-light: #B6EADA;
+
+@mixin adaptiv($property, $startSize, $minSize) {
+    $addSize: $startSize - $minSize;
+    #{$property}: $startSize + px;
+    @media(max-width: 1140px) {
+        #{$property}: calc(#{$minSize + px} + #{$addSize} * ((100vw - 320px) / (1140 - 320)));
+    }
+}
+
