@@ -14,7 +14,7 @@ export default function Maze(): JSX.Element {
     let cellSize = 900 / size;
     let mazeIsBuilt = false;
     let currentCell: number[][] = [[0, 0]];
-    let stack: any = [];
+    let stack: number[][] = [[]];
     let path: number[][] = [];
 
 
@@ -22,6 +22,8 @@ export default function Maze(): JSX.Element {
         drawBorder();
         let i = 0;
         mazeField = createMaze();
+        ctx.fillStyle = `lime`;
+        ctx.strokeStyle = `white`;
 
         while (!mazeIsBuilt) {
             buildMaze();
@@ -48,7 +50,6 @@ export default function Maze(): JSX.Element {
                 clearInterval(SoveInterval);
                 return;
             }
-            ctx.fillStyle = `lime`
             if (path[i] && path[i][0] - path[i - 1][0] === 1) { //come from left
                 ctx.fillRect(path[i][0] * cellSize, path[i][1] * cellSize + cellSize / 2, cellSize / 2, 2)
             }
@@ -82,12 +83,11 @@ export default function Maze(): JSX.Element {
     }
 
     function drawBorder() {
+
         canvas = canvasRef.current!;
         canvas.width = cellSize * size;
         canvas.height = cellSize * size;
         ctx = canvas.getContext('2d')!;
-        ctx.strokeStyle = 'white';
-        ctx.font = "18px Comic Sans MS";
         ctx.moveTo(0, cellSize); //LEFT
         ctx.lineTo(0, canvas.height);
         ctx.moveTo(0, cellSize); //LEFT
@@ -139,7 +139,7 @@ export default function Maze(): JSX.Element {
             stack.push(currentCell[currentCell.length - 1]);
             currentCell.push(nextCell);
         } else if (stack.length > 1) {
-            currentCell.push(stack.pop());
+            currentCell.push(stack.pop()!);
         } else {
             mazeIsBuilt = true;
         }
@@ -224,8 +224,8 @@ export default function Maze(): JSX.Element {
         drawSolvetInterval();
     }
 
-    function onChangeSize(e: any) {
-        e.target.value > 1 && setSize(parseInt(e.target.value))
+    function onChangeSize(e: React.ChangeEvent<HTMLInputElement>) {
+        e.target.value && parseInt(e.target.value) > 1 && setSize(parseInt(e.target.value))
     }
 
     return (

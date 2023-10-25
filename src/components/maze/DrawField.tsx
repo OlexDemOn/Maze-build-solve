@@ -1,6 +1,6 @@
 interface FieldProps {
     cellSize: number;
-    ctx: any;
+    ctx: CanvasRenderingContext2D;
     currentCell: number[];
     borderNumber: number[];
 }
